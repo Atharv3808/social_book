@@ -1,0 +1,19 @@
+/* Basic theme overrides for Social Book */
+body {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+.navbar-brand {
+  font-weight: 700;
+}
+
+/* Slightly wider container for content */
+.container {
+  max-width: 960px;
+}
+
+/* Form tweaks */
+.form-control { box-shadow: none; }
+
+.bg-primary { background-color: #2a9df4 !important; }
