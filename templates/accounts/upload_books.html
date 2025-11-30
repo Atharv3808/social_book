@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-5">
+      <h2 class="mb-3">Upload Books</h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+          {% if field.field.widget.input_type == 'checkbox' %}
+            <div class="form-check mb-3">
+              {{ field }}
+              <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {% for error in field.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+            </div>
+          {% else %}
+            <div class="mb-3">
+              {{ field.label_tag }}
+              {{ field }}
+              {% if field.help_text %}<small class="form-text text-muted">{{ field.help_text }}</small>{% endif %}
+              {% for error in field.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+            </div>
+          {% endif %}
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Upload</button>
+      </form>
+    </div>
+    <div class="col-lg-7">
+      <h3 class="mb-3">Your Uploaded Files</h3>
+      {% if uploads %}
+        <div class="list-group">
+          {% for item in uploads %}
+            <div class="list-group-item">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ item.title }}</h5>
+                <small class="text-muted">{{ item.created_at|date:"Y-m-d H:i" }}</small>
+              </div>
+              {% if item.description %}
+                <p class="mb-1">{{ item.description }}</p>
+              {% endif %}
+              <div class="mb-2">
+                <span class="badge bg-secondary me-1">{{ item.visibility|title }}</span>
+                <span class="badge bg-info me-1">Cost {{ item.cost }}</span>
+                {% if item.year_published %}<span class="badge bg-light text-dark">Published {{ item.year_published }}</span>{% endif %}
+              </div>
+              <a class="btn btn-outline-primary btn-sm" href="{{ item.file.url }}" target="_blank">View File</a>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="alert alert-light border">No uploads yet.</div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
