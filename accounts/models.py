@@ -5,14 +5,7 @@ from django.conf import settings
 
 
 class CustomUser(AbstractUser):
-	"""Custom user model extending Django's AbstractUser.
-
-	Fields added:
-	- public_visibility: whether profile is public
-	- birth_year: optional integer birth year
-	- age: calculated from birth_year on save
-	- address: optional free-text address
-	"""
+	
 	public_visibility = models.BooleanField(default=True)
 	birth_year = models.PositiveIntegerField(null=True, blank=True)
 	age = models.PositiveIntegerField(null=True, blank=True)
